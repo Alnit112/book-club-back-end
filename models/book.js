@@ -1,6 +1,13 @@
+const { text } = require('express');
 const mongoose = require('mongoose');
 
-const Book = mongoose.model('Book', bookSchema);
+const commentSchema = mongoose.Schema({
+    text: {
+        type: String,
+        required: true,
+    },
+    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+})
 
 const bookSchema = mongoose.Schema({
     title: {
@@ -17,6 +24,9 @@ const bookSchema = mongoose.Schema({
         enum: ['fantasy', 'horror', 'romance', 'sci-fi', 'mystery'],
     },
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-})
+    comments: [commentSchema]},
+    {timestamps: true})
+
+const Book = mongoose.model('Book', bookSchema);
 
 module.exports = Book

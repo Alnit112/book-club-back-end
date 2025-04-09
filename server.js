@@ -9,6 +9,7 @@ const logger = require('morgan')
 const testJwtRouter = require('./controllers/test-jwt')
 const authRouter = require('./controllers/auth')
 const userRouter = require('./controllers/users')
+const booksRouter = require('./controllers/books')
 
 mongoose.connect(process.env.MONGODB_URI)
 
@@ -20,10 +21,11 @@ app.use(cors())
 app.use(express.json())
 app.use(logger('dev'))
 
-
+app.use('/books', booksRouter)
 app.use('/test-jwt', testJwtRouter)
 app.use('/auth', authRouter)
 app.use('/users', userRouter)
+app.use('/auth,', authRouter)
 
 
 app.listen(3000, () => {
