@@ -28,9 +28,9 @@ router.get('/', verifyToken, async (req, res) => {
     }
 })
 
-router.get('/:hootId', verifyToken, async (req, res) => {
+router.get('/:bookId', verifyToken, async (req, res) => {
     try {
-        const book = await Book.findById(req.params.hootId).populate('author')
+        const book = await Book.findById(req.params.bookId).populate(['author', 'comments.author'])
         res.status(200).json(book)
     } catch (err) {
         res.status(500).json({ err: err.message })
@@ -77,13 +77,19 @@ router.delete('/:bookId', verifyToken, async (req, res) => {
 })
 
 router.post('/:bookId/comments', verifyToken, async (req, res) => {
+    console.log(req.body);
+    console.log(req.user);
+    
+    
     try {
         req.body.author = req.user._id
         const book = await Book.findById(req.params.bookId)
         book.comments.push(req.body)
         await book.save()
 
-        const newComment = book.comments[book.comments.lenght - 1]
+        const newComment = book.comments[book.comments.length - 1]
+        console.log(newComment);
+        
 
         newComment._doc.author = req.user
 

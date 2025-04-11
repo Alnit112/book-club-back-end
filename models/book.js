@@ -6,8 +6,9 @@ const commentSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-})
+    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }},
+    {timestamps: true})
+
 
 const bookSchema = mongoose.Schema({
     title: {
@@ -21,7 +22,8 @@ const bookSchema = mongoose.Schema({
     genre : {
         type: String,
         required: true,
-        enum: ['fantasy', 'horror', 'romance', 'sci-fi', 'mystery'],
+        enum: ['fantasy', 'horror', 'romance',
+             'sci-fi', 'mystery', 'fiction', 'non-fiction', 'history', 'crime' ],
     },
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     comments: [commentSchema]},
